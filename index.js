@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
-const cors = require('cors'); 
+const cors = require('cors');
 const app = express();
 
 const Subject = require('./models/Subject');
@@ -17,11 +17,13 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.options("*", cors()); 
+
+app.options(/.*/, cors());
 
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
+
 
 app.get('/', (req, res) => {
   res.send('Backend is working 🚀');
@@ -49,6 +51,7 @@ app.post('/api/subjects', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

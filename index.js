@@ -1,14 +1,24 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors'); 
 const app = express();
+
 const Subject = require('./models/Subject');
 const connectDB = require('./config/db');
 
-// ✅ FIX 1: connect DB (enable this if MongoDB is ready)
+
 connectDB();
 
-// ✅ FIX 2: allow JSON body parsing
+
+app.use(cors({
+  origin: "https://study-lib-seven.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+app.options("*", cors()); 
+
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -16,6 +26,7 @@ const PORT = process.env.PORT || 5000;
 app.get('/', (req, res) => {
   res.send('Backend is working 🚀');
 });
+
 
 app.get('/api/subjects', async (req, res) => {
   try {

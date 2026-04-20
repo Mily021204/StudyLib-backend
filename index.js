@@ -2,10 +2,14 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
-const Subject= require ('./models/Subject');
+const Subject = require('./models/Subject');
 const connectDB = require('./config/db');
 
+// ✅ FIX 1: connect DB (enable this if MongoDB is ready)
 connectDB();
+
+// ✅ FIX 2: allow JSON body parsing
+app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
@@ -21,7 +25,6 @@ app.get('/api/subjects', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 app.post('/api/subjects', async (req, res) => {
   try {
@@ -40,4 +43,4 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-module.exports = app;   
+module.exports = app;
